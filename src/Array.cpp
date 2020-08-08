@@ -8,16 +8,18 @@
 using namespace std;
 
 //default constructor for class Array (default size 10)
-Array::Array(int arraySize)
+template <class T>
+Array<T>::Array(int arraySize)
 	: size{(arraySize > 0 ? static_cast<size_t>(arraySize) :
 		throw invalid_argument{"Array size must be greater than 0"})},
-	ptr{new int[size]{}} {/* empty body */}
+	ptr{new T[size]{}} {/* empty body */}
 
 
 // copy constructor for class Array:
 // must receive a reference to an Array
-Array::Array(const Array& arrayToCopy)
-	: size{arrayToCopy.size}, ptr{new int[size]}
+template <class T>
+Array<T>::Array(const Array& arrayToCopy)
+	: size{arrayToCopy.size}, ptr{new T[size]}
 	{
 		for (size_t i{0}; i < size; ++i) {
 			ptr[i] = arrayToCopy.ptr[i]; // copy into object
@@ -25,25 +27,28 @@ Array::Array(const Array& arrayToCopy)
 }
 
 // destructor for class Array
+template <class T>
 Array::~Array() {
 	delete[] ptr; // release pointer-based array space
 }
 
 // return number of elements of Array
-size_t Array::getSize() const {
+template <class T>
+size_t Array<T>::getSize() const {
 	return size; // number of elements in Array
 }
 
 // overloaded assignment operator;
 // const return avoids: (al = a2) = a3
-const Array& Array::operator=(const Array& right) {
+template <class T>
+const Array& Array<T>::operator=(const Array& right) {
 	if (&right != this) { // avoid self-assignment
 		// for Arrays of different sizes, deallocate original
 		// left-side Array, then allocate new left-side Array
 		if (size != right.size){
 			delete[] ptr; // release space
 			size = right.size; // resize this object
-			ptr = new int[size]; // create space for Array copy
+			ptr = new T[size]; // create space for Array copy
 		}
 
 		for (size_t i{0}; i < size; ++i) {
@@ -56,8 +61,8 @@ const Array& Array::operator=(const Array& right) {
 
 // determine if two Arrays are equal and
 // return true, otherwise return false
-
-bool Array::operator==(const Array& right) const {
+template <class T>
+bool Array<T>::operator==(const Array& right) const {
 	if (size != right.size)
 		return false;// arrays of different number of elements
 
@@ -71,7 +76,8 @@ bool Array::operator==(const Array& right) const {
 
 // overloaded subscript operator for non-const Arrays;
 // reference return creates a modifiable lvalue
-int& Array::operator[](int subscript) {
+template <class T>
+T& Array<T>::operator[](int subscript) {
 	// check for subscript out-of-range error
 	if (subscript < 0 || subscript >= size) {
 		throw out_of_range{"Subscript out of range"};
@@ -82,7 +88,8 @@ int& Array::operator[](int subscript) {
 
 // overloaded subscript operator for const Arrays
 // const reference return creates an rvalue
-int Array::operator[](int subscript) const {
+template <class T>
+T Array<T>::operator[](int subscript) const {
 	// check for subscript out-of-range error
 	if (subscript < 0 || subscript >- size) {
 		throw out_of_range{"Subscript out of range"};
@@ -93,7 +100,8 @@ int Array::operator[](int subscript) const {
 
 // overloaded input operator for class Array
 // inputs values for entire Array
-istream& operator>>(istream& input, Array& a) {
+template <class T>
+istream& operator>>(istream& input, Array<T>& a) {
 	for (size_t i{0}; i < a.size; ++i) {
 		input >> a.ptr[i];
 	}
@@ -102,7 +110,8 @@ istream& operator>>(istream& input, Array& a) {
 }
 
 // overloaded output operator for class Array
-ostream& operator<<(ostream& output, const Array& a) {
+template <class T>
+ostream& operator<<(ostream& output, const Array<T>& a) {
 	// output private ptr-based array
 	for (size_t i{0}; i < a.size; ++i) {
 		output << a.ptr[i] << " ";

@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+template <class T>
 class Array {
 
 public:
@@ -25,13 +26,13 @@ public:
 	}
 
 	//subscript operator for non-const objects returns modifiable lvalue
-	int& operator[](int);
+	T& operator[](int);
 
 	// subscript operator for const objects returns rvalue
-	int operator[](int) const;
+	T operator[](int) const;
 private:
 	size_t size; // pointer-based array size
-	int* ptr; // pointer to first element of pointer-based array
+	T* ptr; // pointer to first element of pointer-based array
 
 };
 #endif
