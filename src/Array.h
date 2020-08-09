@@ -4,17 +4,22 @@
 #define ARRAY_H
 
 #include <iostream>
+#include <stdexcept>
+
 
 template <class T>
 class Array {
 
 public:
-	friend std::ostream& operator<<(std::ostream&, const Array&);
-	friend std::ostream& operator>>(std::istream&, const Array&);
+	template <class Y>
+	friend std::ostream& operator<<(std::ostream&, const Array<Y>&);
+	template <class Y>
+	friend std::istream& operator>>(std::istream&, Array<Y>&);
 
-	explicit Array(int = 10); // default constructor
+
+	explicit Array(int arraySize);
 	Array(const Array&); // copy constructor
-	~Array(); // destructor
+	~Array();
 	size_t getSize() const;	// return size
 
 	const Array& operator=(const Array&); // Assignment operator
@@ -35,4 +40,5 @@ private:
 	T* ptr; // pointer to first element of pointer-based array
 
 };
+
 #endif

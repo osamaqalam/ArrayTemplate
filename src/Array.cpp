@@ -7,13 +7,11 @@
 #include "Array.h" // Array class definition
 using namespace std;
 
-//default constructor for class Array (default size 10)
 template <class T>
 Array<T>::Array(int arraySize)
 	: size{(arraySize > 0 ? static_cast<size_t>(arraySize) :
-		throw invalid_argument{"Array size must be greater than 0"})},
-	ptr{new T[size]{}} {/* empty body */}
-
+		throw std::invalid_argument{"Array size must be greater than 0"})},
+	ptr{new T[size]} { /*empty body*/ }
 
 // copy constructor for class Array:
 // must receive a reference to an Array
@@ -28,7 +26,7 @@ Array<T>::Array(const Array& arrayToCopy)
 
 // destructor for class Array
 template <class T>
-Array::~Array() {
+Array<T>::~Array() {
 	delete[] ptr; // release pointer-based array space
 }
 
@@ -41,7 +39,7 @@ size_t Array<T>::getSize() const {
 // overloaded assignment operator;
 // const return avoids: (al = a2) = a3
 template <class T>
-const Array& Array<T>::operator=(const Array& right) {
+const Array<T>& Array<T>::operator=(const Array<T>& right) {
 	if (&right != this) { // avoid self-assignment
 		// for Arrays of different sizes, deallocate original
 		// left-side Array, then allocate new left-side Array
@@ -62,7 +60,7 @@ const Array& Array<T>::operator=(const Array& right) {
 // determine if two Arrays are equal and
 // return true, otherwise return false
 template <class T>
-bool Array<T>::operator==(const Array& right) const {
+bool Array<T>::operator==(const Array<T>& right) const {
 	if (size != right.size)
 		return false;// arrays of different number of elements
 
@@ -100,8 +98,8 @@ T Array<T>::operator[](int subscript) const {
 
 // overloaded input operator for class Array
 // inputs values for entire Array
-template <class T>
-istream& operator>>(istream& input, Array<T>& a) {
+template <class Y>
+istream& operator>>(istream& input, Array<Y>& a) {
 	for (size_t i{0}; i < a.size; ++i) {
 		input >> a.ptr[i];
 	}
@@ -110,8 +108,8 @@ istream& operator>>(istream& input, Array<T>& a) {
 }
 
 // overloaded output operator for class Array
-template <class T>
-ostream& operator<<(ostream& output, const Array<T>& a) {
+template <class Y>
+ostream& operator<<(ostream& output, const Array<Y>& a) {
 	// output private ptr-based array
 	for (size_t i{0}; i < a.size; ++i) {
 		output << a.ptr[i] << " ";
