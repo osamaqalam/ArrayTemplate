@@ -1,0 +1,3 @@
+The integers inputted are: 12,23,45,65,78
+The doubles inputted are: 1.2,3.5,4.2,11.6,3.4
+The strings inputted are: osama,is,da
